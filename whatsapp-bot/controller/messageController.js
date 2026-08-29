@@ -24,7 +24,7 @@ const loadSentNumbers = () => {
     if (fs.existsSync(SENT_FILE)) {
       return JSON.parse(fs.readFileSync(SENT_FILE, 'utf8'));
     }
-  } catch (_) {}
+  } catch (_) { }
   return [];
 };
 
@@ -67,15 +67,15 @@ const paymentLabel = (method) => {
 // ── Message for persons table (payment receipt) — Telugu ─────────────────────
 
 const buildMessage = (donor) => {
-  const name      = donor.donor_name || 'భక్తుడు';
-  const amount    = donor.amount ? `రూ. ${donor.amount}` : 'వర్తించదు';
-  const method    = paymentLabel(donor.payment_method);
-  const date      = formatDate(donor.created_at);
-  const forWhom   = donor.person_name || '';
+  const name = donor.donor_name || 'భక్తుడు';
+  const amount = donor.amount ? `రూ. ${donor.amount}` : 'వర్తించదు';
+  const method = paymentLabel(donor.payment_method);
+  const date = formatDate(donor.created_at);
+  const forWhom = donor.person_name || '';
   const receiptNo = donor.receipt_number || 'వర్తించదు';
 
   return (
-`🙏 *నమస్కారం ${name} గారూ!*
+    `🙏 *నమస్కారం ${name} గారూ!*
 
 *గణేష్ చతుర్థి 2026 - దేపూర్ గ్రామం* కోసం మీరు చేసిన విరాళానికి హృదయపూర్వక ధన్యవాదాలు.
 
@@ -90,7 +90,8 @@ const buildMessage = (donor) => {
 
 మీ సహకారంతో మన పండుగ మరింత వైభవంగా జరుగుతుంది! 🌸
 
-🌐 *మన వెబ్‌సైట్:* https://depuru-ganesh-chaturthi-2k26.netlify.app/
+🌐 *వెబ్‌సైట్ కై ఇక్కడ క్లిక్ చేయండి:*
+https://depuru-ganesh-chaturthi-2k26.netlify.app/
 
 *గణపతి బప్పా మోర్యా!* 🎉
 _దేపూర్ గ్రామ గణేష్ చతుర్థి కమిటీ-2026_
@@ -102,14 +103,14 @@ _⚠️ Disclaimer: This is an auto-generated message. Please do not reply to th
 // ── Message for donations table (donor receipt) — Telugu ─────────────────────
 
 const buildDonorMessage = (donor) => {
-  const name      = donor.donor_name || 'భక్తుడు';
-  const items     = donor.items_donated || 'వర్తించదు';
-  const estValue  = donor.amount && donor.amount > 0 ? `రూ. ${donor.amount}` : null;
-  const date      = formatDate(donor.created_at);
+  const name = donor.donor_name || 'భక్తుడు';
+  const items = donor.items_donated || 'వర్తించదు';
+  const estValue = donor.amount && donor.amount > 0 ? `రూ. ${donor.amount}` : null;
+  const date = formatDate(donor.created_at);
   const receiptNo = donor.receipt_number || 'వర్తించదు';
 
   return (
-`🙏 *నమస్కారం ${name} గారూ!*
+    `🙏 *నమస్కారం ${name} గారూ!*
 
 *గణేష్ చతుర్థి 2026 - దేపూర్ గ్రామం* కోసం మీరు అందించిన వస్తు విరాళానికి హృదయపూర్వక ధన్యవాదాలు.
 
@@ -123,7 +124,8 @@ const buildDonorMessage = (donor) => {
 
 మీ దాతృత్వంతో మన గ్రామ పండుగ మరింత వైభవంగా జరుగుతుంది! 🌸
 
-🌐 *మన వెబ్‌సైట్:* https://depuru-ganesh-chaturthi-2k26.netlify.app/
+🌐 *వెబ్‌సైట్ కై ఇక్కడ క్లిక్ చేయండి:*
+https://depuru-ganesh-chaturthi-2k26.netlify.app/
 
 *గణపతి బప్పా మోర్యా!* 🎉
 _దేపూర్ గ్రామ గణేష్ చతుర్థి కమిటీ-2026_
@@ -148,14 +150,14 @@ const fetchDonorsWithPhone = async () => {
   } else if (personsData && personsData.length > 0) {
     console.log(`📋 Found ${personsData.length} records in persons table`);
     personsData.forEach(u => results.push({
-      donor_name:     u.name,
-      donor_phone:    u.phone_number,
-      amount:         u.amount_paid,
+      donor_name: u.name,
+      donor_phone: u.phone_number,
+      amount: u.amount_paid,
       payment_method: u.payment_method,
-      person_name:    u.name,
-      created_at:     u.created_at,
+      person_name: u.name,
+      created_at: u.created_at,
       receipt_number: u.receipt_number,
-      _source:        'persons',   // used to pick the right message template
+      _source: 'persons',   // used to pick the right message template
     }));
   }
 
