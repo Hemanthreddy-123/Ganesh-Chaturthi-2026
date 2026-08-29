@@ -1,0 +1,7 @@
+node_modules
+.wwebjs_auth
+.wwebjs_cache
+controller/sent_numbers.json
+.env
+*.log
+npm-debug.log*

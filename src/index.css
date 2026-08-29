@@ -1,0 +1,236 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Cinzel:wght@400;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Ganesh Chaturthi 2026 - Deep Saffron & Gold Theme */
+    --background: 30 40% 96%;
+    --foreground: 20 20% 10%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 20 20% 10%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 20 20% 10%;
+
+    /* Deep Saffron Primary */
+    --primary: 22 100% 48%;
+    --primary-foreground: 0 0% 100%;
+    --primary-glow: 38 100% 58%;
+
+    /* Sacred Gold Secondary */
+    --secondary: 43 90% 88%;
+    --secondary-foreground: 22 100% 25%;
+
+    /* Temple Gold Accent */
+    --accent: 40 95% 70%;
+    --accent-foreground: 22 100% 20%;
+
+    --muted: 35 25% 90%;
+    --muted-foreground: 20 15% 42%;
+
+    --destructive: 0 84% 58%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 35 25% 82%;
+    --input: 35 25% 88%;
+    --ring: 22 100% 48%;
+
+    --radius: 0.75rem;
+
+    --sidebar-background: 0 0% 98%;
+    --sidebar-foreground: 240 5.3% 26.1%;
+    --sidebar-primary: 240 5.9% 10%;
+    --sidebar-primary-foreground: 0 0% 98%;
+    --sidebar-accent: 240 4.8% 95.9%;
+    --sidebar-accent-foreground: 240 5.9% 10%;
+    --sidebar-border: 220 13% 91%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+
+  .dark {
+    --background: 20 20% 6%;
+    --foreground: 35 30% 95%;
+    --card: 20 20% 9%;
+    --card-foreground: 35 30% 95%;
+    --popover: 20 20% 9%;
+    --popover-foreground: 35 30% 95%;
+    --primary: 22 100% 52%;
+    --primary-foreground: 0 0% 100%;
+    --primary-glow: 38 100% 62%;
+    --secondary: 20 20% 15%;
+    --secondary-foreground: 35 30% 90%;
+    --muted: 20 20% 15%;
+    --muted-foreground: 35 15% 60%;
+    --accent: 20 20% 15%;
+    --accent-foreground: 35 30% 90%;
+    --destructive: 0 62% 35%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 20 20% 18%;
+    --input: 20 20% 18%;
+    --ring: 22 100% 52%;
+    --sidebar-background: 240 5.9% 10%;
+    --sidebar-foreground: 240 4.8% 95.9%;
+    --sidebar-primary: 224.3 76.3% 48%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 240 3.7% 15.9%;
+    --sidebar-accent-foreground: 240 4.8% 95.9%;
+    --sidebar-border: 240 3.7% 15.9%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+}
+
+@layer base {
+  * { @apply border-border; }
+  body { @apply bg-background text-foreground font-poppins; }
+}
+
+@layer components {
+  /* ── Gradients ── */
+  .ganesh-gradient {
+    background: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary-glow)));
+  }
+  .gold-gradient {
+    background: linear-gradient(135deg, #f59e0b, #fbbf24, #f59e0b);
+  }
+  .hero-gradient {
+    background: linear-gradient(160deg,
+      hsl(22 100% 42%) 0%,
+      hsl(28 100% 50%) 40%,
+      hsl(38 100% 55%) 70%,
+      hsl(43 95% 62%) 100%
+    );
+  }
+  .festival-bg {
+    background: linear-gradient(135deg,
+      hsl(30 40% 96%) 0%,
+      hsl(38 60% 94%) 50%,
+      hsl(43 50% 95%) 100%
+    );
+  }
+
+  /* ── Shadows ── */
+  .divine-shadow {
+    box-shadow: 0 8px 32px -8px hsl(var(--primary) / 0.3),
+                0 2px 8px -2px hsl(var(--primary) / 0.15);
+  }
+  .gold-shadow {
+    box-shadow: 0 8px 32px -8px rgba(245, 158, 11, 0.4),
+                0 2px 8px -2px rgba(245, 158, 11, 0.2);
+  }
+  .blessing-shadow {
+    box-shadow: 0 20px 60px -15px hsl(var(--primary) / 0.35);
+  }
+
+  /* ── Cards ── */
+  .festival-card {
+    @apply bg-card border border-border rounded-2xl divine-shadow transition-all duration-300;
+  }
+  .festival-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 16px 48px -8px hsl(var(--primary) / 0.35);
+  }
+  .stat-card {
+    @apply rounded-2xl p-5 border transition-all duration-300;
+  }
+  .stat-card:hover {
+    transform: translateY(-2px);
+  }
+
+  /* ── Buttons ── */
+  .donation-button {
+    @apply ganesh-gradient text-white font-semibold py-3 px-6 rounded-xl
+           transition-all duration-300 hover:scale-105 divine-shadow
+           hover:brightness-110 active:scale-95;
+  }
+  .gold-button {
+    @apply gold-gradient text-amber-900 font-semibold py-3 px-6 rounded-xl
+           transition-all duration-300 hover:scale-105 gold-shadow
+           hover:brightness-110 active:scale-95;
+  }
+
+  /* ── Text ── */
+  .hero-text {
+    color: white;
+    text-shadow: 0 2px 8px rgba(0,0,0,0.4);
+  }
+  .gradient-text {
+    background: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary-glow)));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .gold-text {
+    background: linear-gradient(135deg, #d97706, #f59e0b, #fbbf24);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* ── Decorative ── */
+  .om-divider {
+    @apply flex items-center gap-4 my-6;
+  }
+  .om-divider::before,
+  .om-divider::after {
+    content: '';
+    @apply flex-1 h-px bg-gradient-to-r from-transparent via-primary/40 to-transparent;
+  }
+
+  /* ── Countdown ── */
+  .countdown-box {
+    @apply flex flex-col items-center justify-center bg-white/20 backdrop-blur-sm
+           rounded-2xl p-4 min-w-[70px] border border-white/30;
+  }
+  .countdown-number {
+    @apply text-3xl sm:text-4xl font-bold text-white leading-none;
+    text-shadow: 0 2px 8px rgba(0,0,0,0.3);
+  }
+  .countdown-label {
+    @apply text-xs text-white/80 mt-1 uppercase tracking-wider font-medium;
+  }
+
+  /* ── Scrolling ticker ── */
+  @keyframes ticker {
+    0%   { transform: translateX(100%); }
+    100% { transform: translateX(-100%); }
+  }
+  .ticker-text {
+    animation: ticker 20s linear infinite;
+    white-space: nowrap;
+  }
+
+  /* ── Floating particles ── */
+  @keyframes float-up {
+    0%   { transform: translateY(0) rotate(0deg); opacity: 1; }
+    100% { transform: translateY(-100px) rotate(360deg); opacity: 0; }
+  }
+  .particle {
+    animation: float-up 3s ease-in-out infinite;
+  }
+
+  /* ── Pulse ring ── */
+  @keyframes pulse-ring {
+    0%   { transform: scale(1); opacity: 0.8; }
+    100% { transform: scale(1.4); opacity: 0; }
+  }
+  .pulse-ring {
+    animation: pulse-ring 2s ease-out infinite;
+  }
+
+  /* ── Nav active ── */
+  .nav-link {
+    @apply flex items-center gap-2 px-4 py-2 rounded-xl font-medium
+           transition-all duration-200 text-muted-foreground hover:text-primary;
+    background-color: transparent;
+  }
+  .nav-link:hover {
+    background-color: hsl(var(--primary) / 0.08);
+  }
+  .nav-link.active {
+    @apply bg-primary text-white shadow-sm;
+  }
+}
