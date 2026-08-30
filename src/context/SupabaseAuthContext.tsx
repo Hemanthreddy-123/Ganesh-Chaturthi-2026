@@ -85,12 +85,12 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
 
   const signIn = async (email: string, password: string) => {
-    // Authorized admin emails
     const authorizedEmails = [
       'vamsikrishna.reddy@depur-ganesh.com',
       'madhu.reddy@depur-ganesh.com',
       'balaji.ravilla@depur-ganesh.com',
       'balaji.kukkapalli@depur-ganesh.com',
+      'hemanth.reddy@depur-ganesh.com',
     ];
 
     if (!authorizedEmails.includes(email)) {

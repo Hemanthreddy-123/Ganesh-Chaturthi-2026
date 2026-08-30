@@ -33,7 +33,7 @@ export const Header: React.FC = () => {
             </div>
             <div className="hidden sm:block">
               <p className="text-base font-bold gradient-text leading-tight">Ganesh Chaturthi 2026 · Depur Village</p>
-              <p className="text-[10px] text-muted-foreground leading-tight">Ganesh Chaturthi 2026 · Depur Village</p>
+              {/* <p className="text-[10px] text-muted-foreground leading-tight">Ganesh Chaturthi 2026 · Depur Village</p> */}
             </div>
           </Link>
 

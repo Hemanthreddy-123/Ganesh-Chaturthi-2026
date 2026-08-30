@@ -105,6 +105,7 @@ export const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose }) => {
                     <p className="text-xs">madhu.reddy@depur-ganesh.com</p>
                     <p className="text-xs">balaji.ravilla@depur-ganesh.com</p>
                     <p className="text-xs">balaji.kukkapalli@depur-ganesh.com</p>
+                    <p className="text-xs">hemanth.reddy@depur-ganesh.com</p>
                   </div>
                 </div>
               </div>

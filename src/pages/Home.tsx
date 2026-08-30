@@ -126,8 +126,8 @@ export const Home = () => {
             <div className="flex flex-wrap justify-center gap-3">
               <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl px-5 py-3 text-center">
                 <p className="text-white/60 text-[10px] uppercase tracking-[2px] mb-1">Festival Dates</p>
-                <p className="text-white font-black text-base">Aug 19 – 21, 2026</p>
-                <p className="text-white/50 text-[10px] mt-0.5">10 Days of Celebration</p>
+                <p className="text-white font-black text-base">Sept 14 – 16, 2026</p>
+                <p className="text-white/50 text-[10px] mt-0.5">3 Days of Celebration</p>
               </div>
               <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl px-5 py-3 text-center">
                 <p className="text-white/60 text-[10px] uppercase tracking-[2px] mb-1">Location</p>
