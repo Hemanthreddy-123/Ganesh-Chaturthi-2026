@@ -25,9 +25,34 @@ export const Home = () => {
 
   const loadPersons = async () => {
     try {
-      const { data, error } = await supabase
-        .from('persons').select('*').order('created_at', { ascending: false });
-      if (!error) setPersons((data || []) as Person[]);
+      // Fetch both tables in parallel
+      const [personsRes, trackerRes] = await Promise.all([
+        supabase.from('persons').select('*').order('created_at', { ascending: false }),
+        supabase.from('people_tracker').select('*').order('created_at', { ascending: false }),
+      ]);
+
+      const personsData = (personsRes.data || []) as Person[];
+
+      // Map people_tracker rows to Person shape for unified display
+      const trackerData: Person[] = (trackerRes.data || []).map((p: any) => ({
+        id: p.id,
+        name: p.name,
+        address: '',
+        phone_number: p.upi_id || '',
+        admin_id: p.admin_id,
+        admin_name: p.admin_name,
+        amount_paid: p.amount || 0,
+        payment_method: 'handcash' as const,
+        created_at: p.created_at,
+        updated_at: p.updated_at || p.created_at,
+      }));
+
+      // Merge both, sort by amount descending (high to low)
+      const combined = [...personsData, ...trackerData].sort(
+        (a, b) => (b.amount_paid || 0) - (a.amount_paid || 0)
+      );
+
+      setPersons(combined);
     } catch (_) {}
     finally { setLoading(false); }
   };

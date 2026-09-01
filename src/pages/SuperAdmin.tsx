@@ -46,13 +46,26 @@ export const SuperAdmin: React.FC = () => {
 
   const loadAll = async () => {
     setDataLoading(true);
-    const [p, d, e, c] = await Promise.all([
+    const [p, tracker, d, e, c] = await Promise.all([
       supabase.from('persons').select('*').order('created_at', { ascending: false }),
+      supabase.from('people_tracker').select('*').order('created_at', { ascending: false }),
       supabase.from('donations').select('*').order('created_at', { ascending: false }),
       supabase.from('admin_expenses').select('*').order('created_at', { ascending: false }),
       supabase.from('admin_collections').select('*').order('created_at', { ascending: false }),
     ]);
-    setPersons(p.data || []);
+    // Map people_tracker to same shape as persons
+    const trackerMapped = (tracker.data || []).map((t: any) => ({
+      id: t.id, name: t.name, address: '', phone_number: t.upi_id || '',
+      admin_id: t.admin_id, admin_name: t.admin_name,
+      amount_paid: t.amount || 0, payment_method: 'handcash',
+      created_at: t.created_at, updated_at: t.updated_at || t.created_at,
+      receipt_number: null, whatsapp_sent: false,
+    }));
+    // Merge & sort high to low amount
+    const combined = [...(p.data || []), ...trackerMapped].sort(
+      (a, b) => Number(b.amount_paid || 0) - Number(a.amount_paid || 0)
+    );
+    setPersons(combined);
     setDonations(d.data || []);
     setExpenses(e.data || []);
     setCollections(c.data || []);

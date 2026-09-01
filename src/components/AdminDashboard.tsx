@@ -30,9 +30,23 @@ export const AdminDashboard: React.FC = () => {
   }, [profile]);
 
   const loadPersons = async () => {
-    const { data, error } = await supabase.from('persons').select('*')
-      .eq('admin_id', profile?.user_id).order('created_at', { ascending: false });
-    if (!error) setPersons(data || []);
+    try {
+      const [personsRes, trackerRes] = await Promise.all([
+        supabase.from('persons').select('*').order('created_at', { ascending: false }),
+        supabase.from('people_tracker').select('*').order('created_at', { ascending: false }),
+      ]);
+      // Map tracker to same shape as persons
+      const trackerMapped = (trackerRes.data || []).map((t: any) => ({
+        id: t.id, name: t.name, address: '', phone_number: t.upi_id || '',
+        admin_id: t.admin_id, admin_name: t.admin_name,
+        amount_paid: t.amount || 0, payment_method: 'handcash',
+        created_at: t.created_at, updated_at: t.updated_at || t.created_at,
+      }));
+      const combined = [...(personsRes.data || []), ...trackerMapped].sort(
+        (a, b) => Number(b.amount_paid || 0) - Number(a.amount_paid || 0)
+      );
+      setPersons(combined);
+    } catch (_) {}
   };
 
   const loadDonations = async () => {
@@ -213,7 +227,7 @@ export const AdminDashboard: React.FC = () => {
                     </Badge>
                   </div>
                   <p className="text-xs text-muted-foreground mt-2">
-                    {new Date(person.created_at).toLocaleDateString('en-IN')}
+                    {new Date(person.created_at).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' })}
                   </p>
                 </CardContent>
               </Card>

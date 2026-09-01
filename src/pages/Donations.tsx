@@ -44,14 +44,37 @@ export const Donations: React.FC = () => {
   const loadAll = async () => {
     setLoading(true);
     try {
-      const [p, d, c, e, b] = await Promise.all([
+      const [p, tracker, d, c, e, b] = await Promise.all([
         supabase.from('persons').select('*').order('created_at', { ascending: false }),
+        supabase.from('people_tracker').select('*').order('created_at', { ascending: false }),
         supabase.from('donations').select('*').order('created_at', { ascending: false }),
         supabase.from('admin_collections').select('*').order('created_at', { ascending: false }),
         supabase.from('admin_expenses').select('*').order('created_at', { ascending: false }),
         supabase.from('bookcash').select('*').order('created_at', { ascending: false }),
       ]);
-      setPersons(p.data || []);
+
+      // Map people_tracker to same shape as persons
+      const trackerMapped = (tracker.data || []).map((t: any) => ({
+        id: t.id,
+        name: t.name,
+        address: '',
+        phone_number: t.upi_id || '',
+        admin_id: t.admin_id,
+        admin_name: t.admin_name,
+        amount_paid: t.amount || 0,
+        payment_method: 'handcash',
+        receipt_number: null,
+        created_at: t.created_at,
+        updated_at: t.updated_at || t.created_at,
+        _source: 'tracker',
+      }));
+
+      // Merge & sort high to low amount
+      const combined = [...(p.data || []), ...trackerMapped].sort(
+        (a, b) => Number(b.amount_paid || 0) - Number(a.amount_paid || 0)
+      );
+
+      setPersons(combined);
       setDonations(d.data || []);
       setCollections(c.data || []);
       setExpenses(e.data || []);
@@ -127,7 +150,7 @@ export const Donations: React.FC = () => {
 
   const exportPDF = () => {
     const fmt = (n: number) => `₹${Number(n).toLocaleString('en-IN')}`;
-    const fmtDate = (d: string) => new Date(d).toLocaleDateString('en-IN', { day:'2-digit', month:'short', year:'numeric' });
+    const fmtDate = (d: string) => new Date(d).toLocaleDateString('en-GB', { day:'2-digit', month:'short', year:'numeric' });
     const fmtMethod = (m: string) => {
       if (m === 'handcash' || m === 'cash') return 'Cash';
       if (['phonepay','upi','phonepay/upi'].includes(m)) return 'UPI';
@@ -513,6 +536,10 @@ ${expenses.length > 0 ? `
                         <span className="text-muted-foreground">Admin</span>
                         <span className="text-xs text-right">{p.admin_name}</span>
                       </div>
+                      <div className="flex justify-between">
+                        <span className="text-muted-foreground">Date</span>
+                        <span className="text-xs text-right">{new Date(p.created_at).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' })}</span>
+                      </div>
                     </div>
                     <Button size="sm" variant="outline" onClick={() => showPersonReceipt(p)}
                       className="w-full rounded-xl border-orange-200 text-orange-600 hover:bg-orange-50 text-xs">
@@ -559,7 +586,7 @@ ${expenses.length > 0 ? `
                       </Badge>
                     </div>
                     <p className="text-xs text-muted-foreground mb-3">
-                      {d.receiving_admin_name} · {new Date(d.created_at).toLocaleDateString('en-IN')}
+                      {d.receiving_admin_name} · {new Date(d.created_at).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' })}
                     </p>
                     <Button size="sm" variant="outline" onClick={() => showDonationReceipt(d)}
                       className="w-full rounded-xl border-orange-200 text-orange-600 hover:bg-orange-50 text-xs">
@@ -583,7 +610,7 @@ ${expenses.length > 0 ? `
                     <p className="font-bold text-red-600 text-lg mb-1">₹{e.amount}</p>
                     <p className="text-sm font-medium mb-2">{e.purpose}</p>
                     <p className="text-xs text-muted-foreground">
-                      {e.admin_name} · {new Date(e.created_at).toLocaleDateString('en-IN')}
+                      {e.admin_name} · {new Date(e.created_at).toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' })}
                     </p>
                   </CardContent>
                 </Card>

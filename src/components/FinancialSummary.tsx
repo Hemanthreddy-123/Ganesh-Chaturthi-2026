@@ -30,6 +30,7 @@ const FinancialSummary = () => {
     load();
     const channel = supabase.channel('fin-updates')
       .on('postgres_changes', { event: '*', schema: 'public', table: 'persons' }, load)
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'people_tracker' }, load)
       .on('postgres_changes', { event: '*', schema: 'public', table: 'donations' }, load)
       .on('postgres_changes', { event: '*', schema: 'public', table: 'admin_collections' }, load)
       .on('postgres_changes', { event: '*', schema: 'public', table: 'admin_expenses' }, load)
@@ -41,9 +42,10 @@ const FinancialSummary = () => {
   const load = async () => {
     try {
       setLoading(true);
-      const [{ data: persons }, { data: donations }, { data: collections }, { data: expenses }, { data: bookcash }] =
+      const [{ data: persons }, { data: tracker }, { data: donations }, { data: collections }, { data: expenses }, { data: bookcash }] =
         await Promise.all([
           supabase.from('persons').select('amount_paid, payment_method'),
+          supabase.from('people_tracker').select('amount'),
           supabase.from('donations').select('amount, payment_method'),
           supabase.from('admin_collections').select('amount'),
           supabase.from('admin_expenses').select('amount'),
@@ -51,12 +53,13 @@ const FinancialSummary = () => {
         ]);
 
       const personsTotal = (persons || []).reduce((s, p) => s + Number(p.amount_paid || 0), 0);
+      const trackerTotal = (tracker || []).reduce((s, t) => s + Number(t.amount || 0), 0);
       const donationsTotal = (donations || []).reduce((s, d) => s + Number(d.amount), 0);
       const collectionsTotal = (collections || []).reduce((s, c) => s + Number(c.amount), 0);
       const expensesTotal = (expenses || []).reduce((s, e) => s + Number(e.amount), 0);
       const bookcashTotal = (bookcash || []).reduce((s, b) => s + Number(b.amount), 0);
 
-      const totalCollected = personsTotal + donationsTotal + collectionsTotal;
+      const totalCollected = personsTotal + trackerTotal + donationsTotal + collectionsTotal;
 
       // Fix: match actual payment_method values used in the app
       const upiMethods = ['phonepay', 'upi', 'phonepay/upi', 'items'];
@@ -71,16 +74,17 @@ const FinancialSummary = () => {
         .filter(p => upiMethods.includes((p.method || '').toLowerCase()))
         .reduce((s, p) => s + Number(p.amount || 0), 0);
 
+      // Hand Cash = persons cash + all tracker amounts (all handcash) + matching donations
       const cashAmount = allPayments
         .filter(p => cashMethods.includes((p.method || '').toLowerCase()))
-        .reduce((s, p) => s + Number(p.amount || 0), 0);
+        .reduce((s, p) => s + Number(p.amount || 0), 0) + trackerTotal;
 
       setBookcashCount((bookcash || []).length);
       setData({
         totalCollected, totalSpent: expensesTotal,
         availableAmount: totalCollected - expensesTotal,
         upiAmount, cashAmount,
-        totalPersons: (persons || []).length,
+        totalPersons: (persons || []).length + (tracker || []).length,
         totalDonations: (donations || []).length,
         totalBookcash: bookcashTotal,
       });

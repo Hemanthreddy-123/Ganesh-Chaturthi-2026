@@ -45,7 +45,7 @@ export const PersonCard: React.FC<PersonCardProps> = ({ person }) => (
         )}
         <div className="flex items-center gap-2 text-xs text-muted-foreground">
           <Calendar className="w-3.5 h-3.5 flex-shrink-0" />
-          <span>{new Date(person.created_at).toLocaleDateString('en-IN')}</span>
+          <span>{new Date(person.created_at).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' })}</span>
         </div>
       </div>
 

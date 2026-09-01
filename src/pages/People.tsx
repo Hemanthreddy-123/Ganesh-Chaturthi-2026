@@ -29,11 +29,37 @@ export const People: React.FC = () => {
   useEffect(() => { load(); }, []);
 
   const load = async () => {
-    const { data, error } = await supabase.from('people_tracker').select('*')
-      .order('created_at', { ascending: false });
-    if (error) toast.error('Failed to load people');
-    else setPeople(data || []);
-    setLoading(false);
+    try {
+      const [trackerRes, personsRes] = await Promise.all([
+        supabase.from('people_tracker').select('*').order('created_at', { ascending: false }),
+        supabase.from('persons').select('id, name, amount_paid, admin_id, admin_name, created_at, phone_number').order('created_at', { ascending: false }),
+      ]);
+
+      if (trackerRes.error) toast.error('Failed to load tracker data');
+      if (personsRes.error) toast.error('Failed to load persons data');
+
+      // Map persons to same shape as PeopleRecord
+      const personsMapped: PeopleRecord[] = (personsRes.data || []).map((p: any) => ({
+        id: p.id,
+        name: p.name,
+        amount: p.amount_paid || 0,
+        upi_id: p.phone_number || undefined,
+        admin_id: p.admin_id,
+        admin_name: p.admin_name,
+        created_at: p.created_at,
+      }));
+
+      // Merge & sort by amount descending (high to low)
+      const combined = [...(trackerRes.data || []), ...personsMapped].sort(
+        (a, b) => Number(b.amount || 0) - Number(a.amount || 0)
+      );
+
+      setPeople(combined);
+    } catch (_) {
+      toast.error('Failed to load people');
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleAdd = async (e: React.FormEvent) => {
@@ -128,9 +154,9 @@ export const People: React.FC = () => {
                     <span className="text-xl font-bold text-orange-600">₹{p.amount}</span>
                   </div>
                   <p className="font-semibold mb-1">{p.name}</p>
-                  {p.upi_id && <p className="text-xs text-orange-600 mb-1">UPI: {p.upi_id}</p>}
+                  {p.upi_id && p.upi_id.includes('@') && <p className="text-xs text-orange-600 mb-1">UPI: {p.upi_id}</p>}
                   <p className="text-xs text-muted-foreground">By {p.admin_name}</p>
-                  <p className="text-xs text-muted-foreground">{new Date(p.created_at).toLocaleDateString('en-IN')}</p>
+                  <p className="text-xs text-muted-foreground">{new Date(p.created_at).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' })}</p>
                 </CardContent>
               </Card>
             ))}

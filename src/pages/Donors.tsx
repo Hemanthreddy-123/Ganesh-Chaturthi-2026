@@ -166,7 +166,7 @@ export const Donors: React.FC = () => {
                         : <span />}
                       <span className="text-xs text-muted-foreground flex items-center gap-1">
                         <Calendar className="w-3 h-3" />
-                        {new Date(donor.created_at).toLocaleDateString('en-IN')}
+                        {new Date(donor.created_at).toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' })}
                       </span>
                     </div>
                     <p className="text-xs text-muted-foreground mt-1">By: {donor.receiving_admin_name}</p>
