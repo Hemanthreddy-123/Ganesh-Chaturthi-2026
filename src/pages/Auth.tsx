@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Loader2, Mail, Lock, ArrowLeft, Shield } from 'lucide-react';
-import lordGaneshImage from '@/assets/lord-ganesh.jpg';
+import lordGaneshImage from '@/assets/image.png';
 
 export const Auth = () => {
   const { user, loading, signIn } = useAuth();
@@ -38,9 +38,6 @@ export const Auth = () => {
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
         <div className="absolute -top-20 -left-20 w-64 h-64 rounded-full bg-white/5 blur-3xl" />
         <div className="absolute -bottom-20 -right-20 w-80 h-80 rounded-full bg-white/5 blur-3xl" />
-        {['top-8 left-8','top-16 right-12','bottom-20 left-16','bottom-8 right-8'].map((pos,i) => (
-          <div key={i} className={`absolute ${pos} text-white/8 text-5xl select-none`}>🕉</div>
-        ))}
       </div>
 
       <div className="w-full max-w-md relative z-10">

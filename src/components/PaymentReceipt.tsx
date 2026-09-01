@@ -4,7 +4,7 @@ import { Dialog, DialogContent } from '@/components/ui/dialog';
 import { Download, X, MessageCircle } from 'lucide-react';
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
-import ganeshImg from '@/assets/lord-ganesh.jpg';
+import ganeshImg from '@/assets/image.png';
 
 export interface ReceiptData {
   receiptNumber: string;

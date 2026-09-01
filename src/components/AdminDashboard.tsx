@@ -164,7 +164,6 @@ export const AdminDashboard: React.FC = () => {
                   {[
                     { id: 'name', label: 'Name', placeholder: "Person's name", key: 'name' },
                     { id: 'address', label: 'Address', placeholder: 'Address', key: 'address' },
-                    { id: 'phone', label: 'Phone Number', placeholder: 'Phone number', key: 'phoneNumber' },
                     { id: 'amount', label: 'Amount Paid', placeholder: 'Amount', key: 'amountPaid', type: 'number' },
                   ].map(({ id, label, placeholder, key, type }) => (
                     <div key={id} className="space-y-1.5">
@@ -175,6 +174,14 @@ export const AdminDashboard: React.FC = () => {
                         className="rounded-xl" required />
                     </div>
                   ))}
+                  {/* Phone — optional */}
+                  <div className="space-y-1.5">
+                    <Label htmlFor="phone">Phone Number <span className="text-muted-foreground font-normal">(Optional)</span></Label>
+                    <Input id="phone" type="text" placeholder="Phone number"
+                      value={newPerson.phoneNumber}
+                      onChange={(e) => setNewPerson(p => ({ ...p, phoneNumber: e.target.value }))}
+                      className="rounded-xl" />
+                  </div>
                   <div className="space-y-1.5">
                     <Label>Payment Method *</Label>
                     <select value={newPerson.paymentMethod}

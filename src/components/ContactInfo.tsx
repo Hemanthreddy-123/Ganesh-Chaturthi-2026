@@ -85,10 +85,10 @@ export const ContactInfo: React.FC = () => {
             <CardTitle className="text-base">UPI Payment</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="bg-gradient-to-r from-orange-50 to-amber-50 border border-orange-200 rounded-xl p-4 mb-3 flex items-center justify-between gap-3">
-              <p className="font-mono text-lg font-semibold text-orange-800">{UPI_ID}</p>
+            <div className="bg-gradient-to-r from-orange-50 to-amber-50 border border-orange-200 rounded-xl p-4 mb-3 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+              <p className="font-mono text-base font-semibold text-orange-800 break-all">{UPI_ID}</p>
               <Button variant="outline" size="sm" onClick={copyUpi}
-                className="border-orange-200 text-orange-600 hover:bg-orange-50 rounded-xl flex-shrink-0">
+                className="border-orange-200 text-orange-600 hover:bg-orange-50 rounded-xl self-end sm:self-auto flex-shrink-0">
                 {copied
                   ? <><CheckCircle className="w-4 h-4 mr-1.5 text-green-500" />Copied!</>
                   : <><Copy className="w-4 h-4 mr-1.5" />Copy</>}

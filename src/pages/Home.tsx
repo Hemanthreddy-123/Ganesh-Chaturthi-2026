@@ -12,7 +12,7 @@ import FestivalCountdown from '@/components/FestivalCountdown';
 import { useAuth } from '@/context/SupabaseAuthContext';
 import { supabase } from '@/integrations/supabase/client';
 import { Person } from '@/types/supabase';
-import lordGaneshImage from '@/assets/lord-ganesh.jpg';
+import ganeshImage from '@/assets/image.png';
 
 export const Home = () => {
   const [persons, setPersons] = useState<Person[]>([]);
@@ -52,7 +52,8 @@ export const Home = () => {
             style={{background:'radial-gradient(circle,#fef3c7 0%,transparent 70%)'}} />
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full opacity-5"
             style={{background:'radial-gradient(circle,#fff 0%,transparent 70%)'}} />
-          {/* OM symbols */}
+          {/* OM symbols — hidden on mobile */}
+          <div className="hidden sm:contents">
           {[
             'top-6 left-6 text-5xl opacity-10',
             'top-10 right-10 text-4xl opacity-8',
@@ -63,33 +64,35 @@ export const Home = () => {
           ].map((cls, i) => (
             <div key={i} className={`absolute ${cls} text-white select-none font-bold`}>🕉</div>
           ))}
-          {/* Decorative rings */}
+          </div>
+          {/* Decorative rings — hidden on mobile */}
+          <div className="hidden sm:contents">
           <div className="absolute top-20 right-20 w-40 h-40 rounded-full border border-white/10" />
           <div className="absolute top-16 right-16 w-52 h-52 rounded-full border border-white/5" />
           <div className="absolute bottom-20 left-20 w-32 h-32 rounded-full border border-white/10" />
+          </div>
         </div>
 
         <div className="container mx-auto px-4 py-16 relative z-10">
           {/* Admin login button removed - already in Header */}
 
           <div className="flex flex-col items-center text-center">
-            {/* Ganesh image with premium glow */}
-            <div className="relative mb-8">
-              {/* Outer glow rings */}
-              <div className="absolute inset-0 rounded-full scale-150 opacity-30 animate-pulse"
-                style={{background:'radial-gradient(circle,#fbbf24 0%,transparent 70%)'}} />
-              <div className="absolute inset-0 rounded-full scale-125 opacity-20"
-                style={{background:'radial-gradient(circle,#fff 0%,transparent 70%)'}} />
-              {/* Image */}
-              <div className="relative w-36 h-36 sm:w-44 sm:h-44 rounded-full overflow-hidden shadow-2xl"
-                style={{border:'4px solid rgba(255,255,255,0.7)',boxShadow:'0 0 60px rgba(251,191,36,0.5),0 20px 60px rgba(0,0,0,0.4)'}}>
-                <img src={lordGaneshImage} alt="Lord Ganesh" className="w-full h-full object-cover object-top" />
+            {/* Ganesh image — perfect circle */}
+            <div className="relative mb-10 flex items-center justify-center">
+              {/* Animated golden glow behind circle */}
+              <div className="absolute w-56 h-56 sm:w-72 sm:h-72 rounded-full animate-pulse"
+                style={{background:'radial-gradient(circle,rgba(251,191,36,0.55) 0%,transparent 70%)'}} />
+              <div className="absolute w-48 h-48 sm:w-64 sm:h-64 rounded-full"
+                style={{background:'radial-gradient(circle,rgba(255,255,255,0.15) 0%,transparent 70%)'}} />
+              {/* Circle image */}
+              <div className="relative w-44 h-44 sm:w-60 sm:h-60 rounded-full overflow-hidden"
+                style={{
+                  border:'4px solid rgba(255,215,0,0.85)',
+                  boxShadow:'0 0 0 6px rgba(251,191,36,0.25), 0 0 60px rgba(251,191,36,0.5), 0 8px 40px rgba(0,0,0,0.45)'
+                }}>
+                <img src={ganeshImage} alt="Lord Ganesh" className="w-full h-full object-cover object-center scale-110" />
               </div>
-              {/* Badge */}
-              <div className="absolute -bottom-3 left-1/2 -translate-x-1/2 whitespace-nowrap px-4 py-1 rounded-full text-xs font-black shadow-xl"
-                style={{background:'linear-gradient(90deg,#f59e0b,#fbbf24)',color:'#7c2d12',boxShadow:'0 4px 16px rgba(245,158,11,0.5)'}}>
-                🕉 Ganpati Bappa Morya 🕉
-              </div>
+
             </div>
 
             {/* Main title */}

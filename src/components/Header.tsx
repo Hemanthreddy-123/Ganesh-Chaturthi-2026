@@ -3,7 +3,7 @@ import { useAuth } from '@/context/SupabaseAuthContext';
 import { Button } from '@/components/ui/button';
 import { LogOut, User, IndianRupee, Home, Users, Gift, Menu, X, Shield } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
-import lordGaneshImage from '@/assets/lord-ganesh.jpg';
+import lordGaneshImage from '@/assets/image.png';
 
 export const Header: React.FC = () => {
   const { user, profile, signOut } = useAuth();
@@ -31,9 +31,8 @@ export const Header: React.FC = () => {
                 <span className="text-white text-[8px] font-bold">🕉</span>
               </div>
             </div>
-            <div className="hidden sm:block">
-              <p className="text-base font-bold gradient-text leading-tight">Ganesh Chaturthi 2026 · Depur Village</p>
-              {/* <p className="text-[10px] text-muted-foreground leading-tight">Ganesh Chaturthi 2026 · Depur Village</p> */}
+            <div>
+              <p className="text-sm sm:text-base font-bold gradient-text leading-tight">Ganesh Chaturthi 2026 · Depur Village</p>
             </div>
           </Link>
 
